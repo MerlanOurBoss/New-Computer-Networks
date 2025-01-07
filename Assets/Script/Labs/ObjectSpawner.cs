@@ -9,8 +9,9 @@ public class ObjectSpawner : MonoBehaviour
     public GameObject routerPrefab;   // Префаб для Router
     public GameObject switchPrefab;   // Префаб для Switch
     public Canvas canvas;             // Ссылка на Canvas
-    private GameObject currentObject; // Текущий создаваемый объект
+    public ConnectionManager connectionManager; // Ссылка на ConnectionManager
 
+    private GameObject currentObject; // Текущий создаваемый объект
     private bool isPlacingObject = false; // Флаг размещения объекта
 
     void Update()
@@ -33,12 +34,18 @@ public class ObjectSpawner : MonoBehaviour
             // Завершаем размещение при клике левой кнопкой
             if (Input.GetMouseButtonDown(0))
             {
-                // Активируем взаимодействие с кнопкой
-                Button button = currentObject.GetComponent<Button>();
-                if (button != null)
-                {
-                    button.interactable = true;
-                }
+                //// Активируем взаимодействие с кнопкой
+                //Button button = currentObject.GetComponent<Button>();
+                //if (button != null)
+                //{
+                //    button.interactable = true;
+                //    Debug.Log("asdopanidpoianw");
+                //    // Добавляем метод SelectObject как listener
+                //    button.onClick.AddListener(() =>
+                //    {
+                //        connectionManager.SelectObject(currentObject);
+                //    });
+                //}
 
                 isPlacingObject = false; // Завершаем размещение
                 currentObject = null;
