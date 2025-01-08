@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class ConnectionManager : MonoBehaviour
 {
     public Button startConnectionButton;
-    public GameObject selectionUI; // UI для выбора стандарта и кабеля
-    public TMP_Dropdown standardDropdown; // Dropdown для выбора стандарта
-    public TMP_Dropdown cableTypeDropdown; // Dropdown для выбора кабеля
-    public GameObject linePrefab; // Префаб линии с LineRenderer
-
+    public GameObject selectionUI; // UI РґР»СЏ РІС‹Р±РѕСЂР° СЃС‚Р°РЅРґР°СЂС‚Р° Рё РєР°Р±РµР»СЏ
+    public TMP_Dropdown standardDropdown; // Dropdown РґР»СЏ РІС‹Р±РѕСЂР° СЃС‚Р°РЅРґР°СЂС‚Р°
+    public TMP_Dropdown cableTypeDropdown; // Dropdown РґР»СЏ РІС‹Р±РѕСЂР° РєР°Р±РµР»СЏ
+    public GameObject linePrefab; // РџСЂРµС„Р°Р± Р»РёРЅРёРё СЃ LineRenderer
+    public TMP_Text tipText; // РџРѕР»Рµ РґР»СЏ РїРѕРґСЃРєР°Р·РѕРє
     private GameObject firstObject;
     private GameObject secondObject;
     private string firstStandard;
@@ -26,10 +26,12 @@ public class ConnectionManager : MonoBehaviour
     {
         startConnectionButton.onClick.AddListener(StartConnection);
         selectionUI.SetActive(false);
+        UpdateTip("ТљРѕСЃС‹Р»Сѓ ТЇС€С–РЅ В«РљР°Р±РµР»СЊВ» С‚ТЇР№РјРµСЃС–РЅ Р±Р°СЃС‹ТЈС‹Р·."); // РќР°С‡Р°Р»СЊРЅР°СЏ РїРѕРґСЃРєР°Р·РєР°
     }
+
     void Update()
     {
-        if (isConnecting && Input.GetMouseButtonDown(0)) // ЛКМ для выбора объекта
+        if (isConnecting && Input.GetMouseButtonDown(0)) // Р›РљРњ РґР»СЏ РІС‹Р±РѕСЂР° РѕР±СЉРµРєС‚Р°
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
@@ -40,12 +42,14 @@ public class ConnectionManager : MonoBehaviour
             }
         }
     }
+
     void StartConnection()
     {
         isConnecting = true;
         firstObject = null;
         secondObject = null;
-        Debug.Log("Начат процесс соединения объектов.");
+        UpdateTip("Р‘С–СЂС–РЅС€С– РЅС‹СЃР°РЅРґС‹ С‚Р°ТЈРґР°ТЈС‹Р·."); // РћР±РЅРѕРІР»РµРЅРёРµ РїРѕРґСЃРєР°Р·РєРё
+        Debug.Log("РќР°С‡Р°С‚ РїСЂРѕС†РµСЃСЃ СЃРѕРµРґРёРЅРµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ.");
     }
 
     public void SelectObject(GameObject selectedObject)
@@ -56,12 +60,14 @@ public class ConnectionManager : MonoBehaviour
         {
             firstObject = selectedObject;
             isSelectingFirstObject = true;
+            UpdateTip("Р‘С–СЂС–РЅС€С– РЅС‹СЃР°РЅ ТЇС€С–РЅ РѕРїС†РёСЏР»Р°СЂРґС‹ С‚Р°ТЈРґР°ТЈС‹Р·.");
             ShowSelectionUI();
         }
         else if (secondObject == null && selectedObject != firstObject)
         {
             secondObject = selectedObject;
             isSelectingFirstObject = false;
+            UpdateTip("Р•РєС–РЅС€С– РЅС‹СЃР°РЅ ТЇС€С–РЅ РѕРїС†РёСЏР»Р°СЂРґС‹ С‚Р°ТЈРґР°ТЈС‹Р·.");
             ShowSelectionUI();
         }
     }
@@ -69,7 +75,6 @@ public class ConnectionManager : MonoBehaviour
     void ShowSelectionUI()
     {
         selectionUI.SetActive(true);
-        // Настройте UI в зависимости от объекта (например, добавьте текст "Выбор для первого объекта" или "Выбор для второго объекта")
     }
 
     public void OnConfirmSelection()
@@ -95,23 +100,29 @@ public class ConnectionManager : MonoBehaviour
 
         selectionUI.SetActive(false);
 
-        if (!isFirstObject) // Если выбор для второго объекта завершён
+        if (!isFirstObject) // Р•СЃР»Рё РІС‹Р±РѕСЂ РґР»СЏ РІС‚РѕСЂРѕРіРѕ РѕР±СЉРµРєС‚Р° Р·Р°РІРµСЂС€С‘РЅ
         {
             ValidateAndConnect();
+        }
+        else
+        {
+            UpdateTip("Р•РєС–РЅС€С– РЅС‹СЃР°РЅРґС‹ С‚Р°ТЈРґР°ТЈС‹Р·.");
         }
     }
 
     void ValidateAndConnect()
     {
-        // Пример проверки совместимости
+        // РџСЂРёРјРµСЂ РїСЂРѕРІРµСЂРєРё СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё
         if (firstStandard == secondStandard && firstCableType == secondCableType)
         {
             CreateConnectionLine();
-            Debug.Log("Соединение успешно создано.");
+            UpdateTip("ТљРѕСЃС‹Р»С‹Рј СЃУ™С‚С‚С– Р¶Р°СЃР°Р»РґС‹.");
+            Debug.Log("РЎРѕРµРґРёРЅРµРЅРёРµ СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅРѕ.");
         }
         else
         {
-            Debug.Log("Ошибка: Неверные параметры подключения.");
+            UpdateTip("ТљР°С‚Рµ: Т›РѕСЃС‹Р»С‹Рј РїР°СЂР°РјРµС‚СЂР»РµСЂС– Р¶Р°СЂР°РјСЃС‹Р·.");
+            Debug.Log("РћС€РёР±РєР°: РќРµРІРµСЂРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ РїРѕРґРєР»СЋС‡РµРЅРёСЏ.");
         }
 
         ResetConnection();
@@ -136,5 +147,12 @@ public class ConnectionManager : MonoBehaviour
         firstCableType = null;
         secondStandard = null;
         secondCableType = null;
+
+        UpdateTip("ТљРѕСЃС‹Р»Сѓ ТЇС€С–РЅ В«РљР°Р±РµР»СЊВ» С‚ТЇР№РјРµСЃС–РЅ Р±Р°СЃС‹ТЈС‹Р·.");
+    }
+
+    void UpdateTip(string message)
+    {
+        tipText.text = message; // РћР±РЅРѕРІР»СЏРµС‚ С‚РµРєСЃС‚РѕРІРѕРµ РїРѕР»Рµ СЃ РїРѕРґСЃРєР°Р·РєР°РјРё
     }
 }
