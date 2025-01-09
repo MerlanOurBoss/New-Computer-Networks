@@ -8,6 +8,7 @@ TagManager:
   - PC
   - Router
   - Switch
+  - Port
   layers:
   - Default
   - TransparentFX

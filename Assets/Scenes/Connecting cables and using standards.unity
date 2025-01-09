@@ -2368,6 +2368,9 @@ MonoBehaviour:
   cableTypeDropdown: {fileID: 1224369226}
   linePrefab: {fileID: 4537855490749073447, guid: 891222259a2dd434f9d885e89c5a0319, type: 3}
   tipText: {fileID: 27289021}
+  switchTogglePrefab: {fileID: 3072875730634127644, guid: 3565a464645794b4da71293734d9673b, type: 3}
+  routerTogglePrefab: {fileID: 7793124862164167091, guid: ef39da84ab60d4f46aaea5620856c66f, type: 3}
+  parentForPrefab: {fileID: 187725448}
 --- !u!1 &1140101738
 GameObject:
   m_ObjectHideFlags: 0
@@ -3695,7 +3698,7 @@ GameObject:
   - component: {fileID: 1627498369}
   - component: {fileID: 1627498368}
   m_Layer: 5
-  m_Name: T-568A
+  m_Name: Connector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
