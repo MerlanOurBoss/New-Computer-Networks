@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Result
+  - PC
+  - Router
+  - Switch
   layers:
   - Default
   - TransparentFX

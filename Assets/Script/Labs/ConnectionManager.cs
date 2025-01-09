@@ -7,11 +7,12 @@ using UnityEngine.UI;
 public class ConnectionManager : MonoBehaviour
 {
     public Button startConnectionButton;
-    public GameObject selectionUI; // UI для выбора стандарта и кабеля
-    public TMP_Dropdown standardDropdown; // Dropdown для выбора стандарта
-    public TMP_Dropdown cableTypeDropdown; // Dropdown для выбора кабеля
-    public GameObject linePrefab; // Префаб линии с LineRenderer
-    public TMP_Text tipText; // Поле для подсказок
+    public GameObject selectionUI;
+    public TMP_Dropdown standardDropdown;
+    public TMP_Dropdown cableTypeDropdown;
+    public GameObject linePrefab;
+    public TMP_Text tipText;
+
     private GameObject firstObject;
     private GameObject secondObject;
     private string firstStandard;
@@ -26,12 +27,12 @@ public class ConnectionManager : MonoBehaviour
     {
         startConnectionButton.onClick.AddListener(StartConnection);
         selectionUI.SetActive(false);
-        UpdateTip("Қосылу үшін «Кабель» түймесін басыңыз."); // Начальная подсказка
+        UpdateTip("Қосылу үшін «Кабель» түймесін басыңыз.");
     }
 
     void Update()
     {
-        if (isConnecting && Input.GetMouseButtonDown(0)) // ЛКМ для выбора объекта
+        if (isConnecting && Input.GetMouseButtonDown(0))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
@@ -48,7 +49,7 @@ public class ConnectionManager : MonoBehaviour
         isConnecting = true;
         firstObject = null;
         secondObject = null;
-        UpdateTip("Бірінші нысанды таңдаңыз."); // Обновление подсказки
+        UpdateTip("Бірінші нысанды таңдаңыз.");
         Debug.Log("Начат процесс соединения объектов.");
     }
 
@@ -100,7 +101,7 @@ public class ConnectionManager : MonoBehaviour
 
         selectionUI.SetActive(false);
 
-        if (!isFirstObject) // Если выбор для второго объекта завершён
+        if (!isFirstObject)
         {
             ValidateAndConnect();
         }
@@ -112,8 +113,11 @@ public class ConnectionManager : MonoBehaviour
 
     void ValidateAndConnect()
     {
-        // Пример проверки совместимости
-        if (firstStandard == secondStandard && firstCableType == secondCableType)
+        string firstType = firstObject.tag; // Предполагаем, что тип объекта задаётся через тег
+        string secondType = secondObject.tag;
+
+        // Проверка совместимости типов устройств, стандартов и кабелей
+        if (IsConnectionValid(firstType, secondType, firstStandard, secondStandard, firstCableType, secondCableType))
         {
             CreateConnectionLine();
             UpdateTip("Қосылым сәтті жасалды.");
@@ -126,6 +130,42 @@ public class ConnectionManager : MonoBehaviour
         }
 
         ResetConnection();
+    }
+
+    bool IsConnectionValid(string firstType, string secondType, string firstStandard, string secondStandard, string firstCableType, string secondCableType)
+    {
+        // Проверка совместимости для PC -> PC
+        if (firstType == "PC" && secondType == "PC" &&
+            firstStandard == secondStandard &&
+            firstCableType == "Кроссовер" && secondCableType == "Кроссовер")
+        {
+            return true;
+        }
+
+        // Проверка совместимости для PC -> Router
+        if ((firstType == "PC" && secondType == "Router" || firstType == "Router" && secondType == "PC") &&
+            firstStandard == "T-568B" && secondStandard == "T-568B" &&
+            firstCableType == "Тікелей" && secondCableType == "Тікелей")
+        {
+            return true;
+        }
+
+        // Проверка совместимости для Router -> Switch
+        if ((firstType == "Router" && secondType == "Switch" || firstType == "Switch" && secondType == "Router") &&
+            firstStandard == "T-568B" && secondStandard == "T-568B" &&
+            firstCableType == "Тікелей" && secondCableType == "Тікелей")
+        {
+            return true;
+        }
+
+        // Проверка совместимости для PC -> Switch
+        if ((firstType == "PC" && secondType == "Switch" || firstType == "Switch" && secondType == "PC") &&
+            firstStandard == "T-568B" && secondStandard == "T-568B" &&
+            firstCableType == "Тікелей" && secondCableType == "Тікелей")
+        {
+            return true;
+        }
+        return false;
     }
 
     void CreateConnectionLine()
@@ -147,12 +187,10 @@ public class ConnectionManager : MonoBehaviour
         firstCableType = null;
         secondStandard = null;
         secondCableType = null;
-
-        UpdateTip("Қосылу үшін «Кабель» түймесін басыңыз.");
     }
 
     void UpdateTip(string message)
     {
-        tipText.text = message; // Обновляет текстовое поле с подсказками
+        tipText.text = message;
     }
 }
