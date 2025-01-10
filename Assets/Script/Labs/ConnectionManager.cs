@@ -132,43 +132,66 @@ public class ConnectionManager : MonoBehaviour
         // Определяем текущий объект
         GameObject currentObject = isSelectingFirstObject ? firstObject : secondObject;
 
-        // Проверяем, что текущий объект не равен null
-        if (currentObject != null && objectPrefabs.ContainsKey(currentObject) && objectPrefabs[currentObject] != null)
+        if (currentObject == null)
         {
-            // Ищем Toggle с тэгом "Port" внутри префаба
+            UpdateTip("Қате: объект не найден.");
+            Debug.Log("Ошибка: объект не найден.");
+            return;
+        }
+
+        // Проверка на тег "PC" (у ПК нет портов)
+        if (currentObject.CompareTag("PC"))
+        {
+            SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
+            UpdateTip(isSelectingFirstObject ? "Екінші нысанды таңдаңыз." : "Қосылым тексерілуде...");
+            return;
+        }
+
+        // Проверяем, что текущий объект имеет префаб с портами
+        if (objectPrefabs.ContainsKey(currentObject) && objectPrefabs[currentObject] != null)
+        {
             GameObject prefab = objectPrefabs[currentObject];
             Toggle[] toggles = prefab.GetComponentsInChildren<Toggle>();
 
-            bool isValidPortSelected = false;
+            bool hasFreePort = false;
 
             foreach (var toggle in toggles)
             {
                 if (toggle.CompareTag("Port") && !toggle.isOn)
                 {
-                    // Свободный порт найден и выбран
-                    toggle.isOn = true;
-                    isValidPortSelected = true;
+                    // Найден свободный порт
+                    hasFreePort = true;
                     break;
                 }
             }
 
-            if (!isValidPortSelected)
+            if (!hasFreePort)
             {
                 UpdateTip("Қате: барлық порттар бос емес. Еркін портты таңдаңыз.");
-                Debug.Log("Ошибка: нет доступных портов. Выберите свободный порт.");
+                Debug.Log("Ошибка: нет доступных портов.");
                 return; // Завершаем выполнение метода, оставляя selectionUI активным
             }
-
-            // Если порт выбран, отключаем активный префаб
-            objectPrefabs[currentObject].SetActive(false);
+        }
+        else
+        {
+            UpdateTip("Қате: объект не имеет портов.");
+            Debug.Log("Ошибка: объект не имеет портов.");
+            return;
         }
 
         // Сохраняем параметры подключения
         SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
 
-        if (currentObject.CompareTag("Router") || currentObject.CompareTag("Switch"))
+        // Отключаем активный префаб для текущего объекта
+        objectPrefabs[currentObject]?.SetActive(false);
+
+        if (!isSelectingFirstObject)
         {
-            objectPrefabs[currentObject].SetActive(false);
+            ValidateAndConnect();
+        }
+        else
+        {
+            UpdateTip("Екінші нысанды таңдаңыз.");
         }
     }
 
@@ -199,10 +222,16 @@ public class ConnectionManager : MonoBehaviour
 
     void ValidateAndConnect()
     {
+        if (firstObject == null || secondObject == null)
+        {
+            UpdateTip("Қате: бір немесе екі нысан анықталмаған.");
+            Debug.LogError("Ошибка: один или оба объекта равны null.");
+            return;
+        }
+
         string firstType = firstObject.tag;
         string secondType = secondObject.tag;
 
-        // Проверка совместимости типов устройств, стандартов и кабелей
         if (IsConnectionValid(firstType, secondType, firstStandard, secondStandard, firstCableType, secondCableType))
         {
             CreateConnectionLine();
@@ -213,11 +242,33 @@ public class ConnectionManager : MonoBehaviour
         {
             UpdateTip("Қате: қосылым параметрлері жарамсыз.");
             Debug.Log("Ошибка: Неверные параметры подключения.");
+
+            ReleaseSelectedPort(firstObject);
+            ReleaseSelectedPort(secondObject);
         }
 
         ResetConnection();
     }
 
+    void ReleaseSelectedPort(GameObject obj)
+    {
+        if (obj == null) return; // Проверка на null
+
+        if (objectPrefabs.ContainsKey(obj) && objectPrefabs[obj] != null)
+        {
+            GameObject prefab = objectPrefabs[obj];
+            Toggle[] toggles = prefab.GetComponentsInChildren<Toggle>();
+
+            foreach (var toggle in toggles)
+            {
+                if (toggle.CompareTag("Port") && toggle.isOn)
+                {
+                    toggle.isOn = false;
+                    break;
+                }
+            }
+        }
+    }
     bool IsConnectionValid(string firstType, string secondType, string firstStandard, string secondStandard, string firstCableType, string secondCableType)
     {
         // Проверка совместимости для PC -> PC
