@@ -14,6 +14,11 @@ public class ConnectionManager : MonoBehaviour
     public GameObject linePrefab;
     public TMP_Text tipText;
 
+    [Header("IP Address Assignment")]
+    public GameObject ipAssignmentUI; // UI для ввода IP
+    public TMP_InputField ipInputField; // Поле для ввода IP
+    private GameObject selectedForIpAssignment; // Объект, которому назначается IP
+
     [Header("Switch")]
     [SerializeField] private GameObject switchTogglePrefab;
 
@@ -39,6 +44,7 @@ public class ConnectionManager : MonoBehaviour
     {
         startConnectionButton.onClick.AddListener(StartConnection);
         selectionUI.SetActive(false);
+        ipAssignmentUI.SetActive(false);
         UpdateTip("Қосылу үшін «Кабель» түймесін басыңыз.");
 
         // Инициализация словаря для хранения созданных префабов
@@ -80,6 +86,7 @@ public class ConnectionManager : MonoBehaviour
             UpdateTip("Бірінші нысан үшін опцияларды таңдаңыз.");
             SpawnPrefabForSwitchRouter(selectedObject);
             ShowSelectionUI();
+            OpenIpAssignmentUI(selectedObject);
         }
         else if (secondObject == null && selectedObject != firstObject)
         {
@@ -88,6 +95,7 @@ public class ConnectionManager : MonoBehaviour
             UpdateTip("Екінші нысан үшін опцияларды таңдаңыз.");
             SpawnPrefabForSwitchRouter(selectedObject);
             ShowSelectionUI();
+            OpenIpAssignmentUI(selectedObject);
         }
     }
 
@@ -129,70 +137,60 @@ public class ConnectionManager : MonoBehaviour
         string selectedStandard = standardDropdown.options[standardDropdown.value].text;
         string selectedCableType = cableTypeDropdown.options[cableTypeDropdown.value].text;
 
-        // Определяем текущий объект
+        AssignIpAddress();
+
         GameObject currentObject = isSelectingFirstObject ? firstObject : secondObject;
 
-        if (currentObject == null)
-        {
-            UpdateTip("Қате: объект не найден.");
-            Debug.Log("Ошибка: объект не найден.");
-            return;
-        }
-
-        // Проверка на тег "PC" (у ПК нет портов)
-        if (currentObject.CompareTag("PC"))
-        {
-            SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
-            UpdateTip(isSelectingFirstObject ? "Екінші нысанды таңдаңыз." : "Қосылым тексерілуде...");
-            return;
-        }
-
-        // Проверяем, что текущий объект имеет префаб с портами
-        if (objectPrefabs.ContainsKey(currentObject) && objectPrefabs[currentObject] != null)
+        if (currentObject != null && objectPrefabs.ContainsKey(currentObject) && objectPrefabs[currentObject] != null)
         {
             GameObject prefab = objectPrefabs[currentObject];
             Toggle[] toggles = prefab.GetComponentsInChildren<Toggle>();
 
-            bool hasFreePort = false;
+            Toggle selectedToggle = null;
 
             foreach (var toggle in toggles)
             {
-                if (toggle.CompareTag("Port") && !toggle.isOn)
+                if (toggle.CompareTag("Port") && toggle.isOn)
                 {
-                    // Найден свободный порт
-                    hasFreePort = true;
-                    break;
+                    // Проверяем, не занят ли порт
+                    if (toggle.interactable)
+                    {
+                        selectedToggle = toggle;
+                        break;
+                    }
                 }
             }
 
-            if (!hasFreePort)
+            if (selectedToggle == null)
             {
-                UpdateTip("Қате: барлық порттар бос емес. Еркін портты таңдаңыз.");
-                Debug.Log("Ошибка: нет доступных портов.");
-                return; // Завершаем выполнение метода, оставляя selectionUI активным
+                // Если порт не выбран, выводим сообщение об ошибке и выходим из метода
+                UpdateTip("Қате: Порт таңдалмады. Қосылу үшін портты таңдаңыз.");
+                Debug.Log("Ошибка: Не выбран порт. Пожалуйста, выберите порт для подключения.");
+                return;
             }
+
+            // Сохраняем выбранный порт в объекте для текущего подключения
+            if (isSelectingFirstObject)
+            {
+                firstObject.GetComponent<ConnectionData>().SelectedPort = selectedToggle;
+            }
+            else
+            {
+                secondObject.GetComponent<ConnectionData>().SelectedPort = selectedToggle;
+            }
+
+            objectPrefabs[currentObject].SetActive(false);
         }
-        else
+
+        ConnectionData connectionData = currentObject.GetComponent<ConnectionData>();
+        if (connectionData.IPAddress == null || connectionData.IPAddress == "")
         {
-            UpdateTip("Қате: объект не имеет портов.");
-            Debug.Log("Ошибка: объект не имеет портов.");
+            UpdateTip("Қате: IP-адрес тағайындалмаған. Алдымен IP-адрес енгізіңіз.");
+            Debug.LogError("Ошибка: IP-адрес не назначен. Пожалуйста, введите IP-адрес перед подтверждением.");
             return;
         }
 
-        // Сохраняем параметры подключения
         SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
-
-        // Отключаем активный префаб для текущего объекта
-        objectPrefabs[currentObject]?.SetActive(false);
-
-        if (!isSelectingFirstObject)
-        {
-            ValidateAndConnect();
-        }
-        else
-        {
-            UpdateTip("Екінші нысанды таңдаңыз.");
-        }
     }
 
     public void SetConnectionOptions(string standard, string cableType, bool isFirstObject)
@@ -222,51 +220,49 @@ public class ConnectionManager : MonoBehaviour
 
     void ValidateAndConnect()
     {
-        if (firstObject == null || secondObject == null)
-        {
-            UpdateTip("Қате: бір немесе екі нысан анықталмаған.");
-            Debug.LogError("Ошибка: один или оба объекта равны null.");
-            return;
-        }
-
         string firstType = firstObject.tag;
         string secondType = secondObject.tag;
 
         if (IsConnectionValid(firstType, secondType, firstStandard, secondStandard, firstCableType, secondCableType))
         {
+            // Если соединение валидно, создаем линию и блокируем порты
             CreateConnectionLine();
+            BlockSelectedPort(firstObject);
+            BlockSelectedPort(secondObject);
             UpdateTip("Қосылым сәтті жасалды.");
             Debug.Log("Соединение успешно создано.");
         }
         else
         {
-            UpdateTip("Қате: қосылым параметрлері жарамсыз.");
-            Debug.Log("Ошибка: Неверные параметры подключения.");
-
             ReleaseSelectedPort(firstObject);
             ReleaseSelectedPort(secondObject);
+            UpdateTip("Қате: қосылым параметрлері жарамсыз.");
+            Debug.Log("Ошибка: Неверные параметры подключения.");
         }
 
         ResetConnection();
     }
 
+    void BlockSelectedPort(GameObject obj)
+    {
+        if (obj == null) return;
+
+        ConnectionData connectionData = obj.GetComponent<ConnectionData>();
+        if (connectionData != null && connectionData.SelectedPort != null)
+        {
+            connectionData.SelectedPort.interactable = false;
+        }
+    }
+
     void ReleaseSelectedPort(GameObject obj)
     {
-        if (obj == null) return; // Проверка на null
+        if (obj == null) return;
 
-        if (objectPrefabs.ContainsKey(obj) && objectPrefabs[obj] != null)
+        ConnectionData connectionData = obj.GetComponent<ConnectionData>();
+        if (connectionData != null && connectionData.SelectedPort != null)
         {
-            GameObject prefab = objectPrefabs[obj];
-            Toggle[] toggles = prefab.GetComponentsInChildren<Toggle>();
-
-            foreach (var toggle in toggles)
-            {
-                if (toggle.CompareTag("Port") && toggle.isOn)
-                {
-                    toggle.isOn = false;
-                    break;
-                }
-            }
+            connectionData.SelectedPort.isOn = false;
+            connectionData.SelectedPort = null; // Сбрасываем ссылку на порт
         }
     }
     bool IsConnectionValid(string firstType, string secondType, string firstStandard, string secondStandard, string firstCableType, string secondCableType)
@@ -303,6 +299,79 @@ public class ConnectionManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    // Метод для открытия UI назначения IP
+    public void OpenIpAssignmentUI(GameObject obj)
+    {
+        selectedForIpAssignment = obj;
+
+        // Проверяем, есть ли уже назначенный IP
+        ConnectionData connectionData = obj.GetComponent<ConnectionData>();
+        if (connectionData != null && !string.IsNullOrEmpty(connectionData.IPAddress))
+        {
+            ipInputField.text = connectionData.IPAddress; // Отображаем существующий IP
+        }
+        else
+        {
+            ipInputField.text = string.Empty; // Очищаем поле, если IP отсутствует
+        }
+
+        ipAssignmentUI.SetActive(true); // Показываем UI
+    }
+
+    // Метод для подтверждения назначения IP
+    public void AssignIpAddress()
+    {
+        if (selectedForIpAssignment == null) return;
+
+        string inputIp = ipInputField.text;
+
+        // Проверяем, пусто ли поле ввода
+        if (string.IsNullOrWhiteSpace(inputIp))
+        {
+            Debug.LogWarning("Поле ввода IP-адреса пусто.");
+            UpdateTip("Қате: IP-адрес енгізілмеген.");
+            return;
+        }
+
+        // Валидация IP-адреса
+        if (IsValidIp(inputIp))
+        {
+            ConnectionData connectionData = selectedForIpAssignment.GetComponent<ConnectionData>();
+            if (connectionData != null)
+            {
+                connectionData.IPAddress = inputIp; // Назначаем IP
+                Debug.Log($"IP {inputIp} assigned to {selectedForIpAssignment.name}.");
+                UpdateTip($"IP {inputIp} нысанға тағайындалды.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Неверный IP-адрес.");
+            UpdateTip("Қате: дұрыс емес IP-адрес.");
+        }
+
+        ipAssignmentUI.SetActive(false); // Закрываем UI
+        selectedForIpAssignment = null;
+    }
+
+
+    // Метод проверки валидности IP-адреса
+    private bool IsValidIp(string ip)
+    {
+        string[] parts = ip.Split('.');
+        if (parts.Length != 4) return false;
+
+        foreach (string part in parts)
+        {
+            if (!int.TryParse(part, out int num) || num < 0 || num > 255)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     void CreateConnectionLine()
