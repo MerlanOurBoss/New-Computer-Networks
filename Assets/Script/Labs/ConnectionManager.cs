@@ -36,9 +36,10 @@ public class ConnectionManager : MonoBehaviour
     private string secondCableType;
 
     private bool isConnecting = false;
+    private bool isIPadresswrited = false;
     private bool isSelectingFirstObject = true;
     private Dictionary<GameObject, GameObject> objectPrefabs;
-
+    private HashSet<string> assignedIps = new HashSet<string>();
 
     void Start()
     {
@@ -137,7 +138,6 @@ public class ConnectionManager : MonoBehaviour
         string selectedStandard = standardDropdown.options[standardDropdown.value].text;
         string selectedCableType = cableTypeDropdown.options[cableTypeDropdown.value].text;
 
-        AssignIpAddress();
 
         GameObject currentObject = isSelectingFirstObject ? firstObject : secondObject;
 
@@ -181,16 +181,18 @@ public class ConnectionManager : MonoBehaviour
 
             objectPrefabs[currentObject].SetActive(false);
         }
-
         ConnectionData connectionData = currentObject.GetComponent<ConnectionData>();
-        if (connectionData.IPAddress == null || connectionData.IPAddress == "")
+        if (connectionData.IPAddressText.text == "")
         {
-            UpdateTip("Қате: IP-адрес тағайындалмаған. Алдымен IP-адрес енгізіңіз.");
-            Debug.LogError("Ошибка: IP-адрес не назначен. Пожалуйста, введите IP-адрес перед подтверждением.");
-            return;
+            AssignIpAddress();
         }
+            
 
-        SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
+
+        if (!isIPadresswrited)
+        {
+            SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
+        }
     }
 
     public void SetConnectionOptions(string standard, string cableType, bool isFirstObject)
@@ -310,14 +312,14 @@ public class ConnectionManager : MonoBehaviour
         ConnectionData connectionData = obj.GetComponent<ConnectionData>();
         if (connectionData != null && !string.IsNullOrEmpty(connectionData.IPAddress))
         {
-            ipInputField.text = connectionData.IPAddress; // Отображаем существующий IP
-        }
-        else
-        {
-            ipInputField.text = string.Empty; // Очищаем поле, если IP отсутствует
+            return;
         }
 
-        ipAssignmentUI.SetActive(true); // Показываем UI
+        // Очищаем поле, если IP отсутствует
+        ipInputField.text = string.Empty;
+
+        // Показываем UI
+        ipAssignmentUI.SetActive(true);
     }
 
     // Метод для подтверждения назначения IP
@@ -332,16 +334,33 @@ public class ConnectionManager : MonoBehaviour
         {
             Debug.LogWarning("Поле ввода IP-адреса пусто.");
             UpdateTip("Қате: IP-адрес енгізілмеген.");
+            isIPadresswrited = true;
             return;
         }
 
         // Валидация IP-адреса
         if (IsValidIp(inputIp))
         {
+            // Проверка на уже используемый IP
+            if (assignedIps.Contains(inputIp))
+            {
+                Debug.LogError($"Ошибка: IP {inputIp} уже используется.");
+                UpdateTip($"Қате: IP {inputIp} қазірдің өзінде қолданылады.");
+                isIPadresswrited = true;
+                return;
+            }
+
+            // Удаляем предыдущий IP объекта, если он был
             ConnectionData connectionData = selectedForIpAssignment.GetComponent<ConnectionData>();
             if (connectionData != null)
             {
+                if (!string.IsNullOrEmpty(connectionData.IPAddress))
+                {
+                    assignedIps.Remove(connectionData.IPAddress);
+                }
+
                 connectionData.IPAddress = inputIp; // Назначаем IP
+                assignedIps.Add(inputIp); // Добавляем IP в список занятых
                 Debug.Log($"IP {inputIp} assigned to {selectedForIpAssignment.name}.");
                 UpdateTip($"IP {inputIp} нысанға тағайындалды.");
             }
@@ -351,8 +370,8 @@ public class ConnectionManager : MonoBehaviour
             Debug.LogError("Неверный IP-адрес.");
             UpdateTip("Қате: дұрыс емес IP-адрес.");
         }
-
         ipAssignmentUI.SetActive(false); // Закрываем UI
+        isIPadresswrited = false;
         selectedForIpAssignment = null;
     }
 
