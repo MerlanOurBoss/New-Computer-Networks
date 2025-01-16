@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 public class ConnectionManager : MonoBehaviour
 {
@@ -18,6 +20,13 @@ public class ConnectionManager : MonoBehaviour
     public GameObject ipAssignmentUI; // UI для ввода IP
     public TMP_InputField ipInputField; // Поле для ввода IP
     private GameObject selectedForIpAssignment; // Объект, которому назначается IP
+    private HashSet<string> assignedIps = new HashSet<string>();
+
+    [Header("VLAN Assignment")]
+    public GameObject vlanAssignmentUI; // UI for VLAN assignment
+    public TMP_InputField vlanInputField; // Input field for VLAN ID
+    private GameObject selectedForVlanAssignment; // Object to assign VLAN to
+    private HashSet<string> assignedVlans = new HashSet<string>();
 
     [Header("Switch")]
     [SerializeField] private GameObject switchTogglePrefab;
@@ -37,15 +46,19 @@ public class ConnectionManager : MonoBehaviour
 
     private bool isConnecting = false;
     private bool isIPadresswrited = false;
+    private bool isVLANswrited = false;
     private bool isSelectingFirstObject = true;
     private Dictionary<GameObject, GameObject> objectPrefabs;
-    private HashSet<string> assignedIps = new HashSet<string>();
+
+    // Словарь для хранения подключений: ключ — коммутатор, значение — список подключенных устройств
+    private Dictionary<GameObject, List<GameObject>> switchConnections = new Dictionary<GameObject, List<GameObject>>();
 
     void Start()
     {
         startConnectionButton.onClick.AddListener(StartConnection);
         selectionUI.SetActive(false);
         ipAssignmentUI.SetActive(false);
+        vlanAssignmentUI.SetActive(false);
         UpdateTip("Қосылу үшін «Кабель» түймесін басыңыз.");
 
         // Инициализация словаря для хранения созданных префабов
@@ -55,9 +68,9 @@ public class ConnectionManager : MonoBehaviour
 
     void Update()
     {
-        if (isConnecting && Input.GetMouseButtonDown(0))
+        if (isConnecting && UnityEngine.Input.GetMouseButtonDown(0))
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
             if (hit.collider != null)
@@ -88,6 +101,7 @@ public class ConnectionManager : MonoBehaviour
             SpawnPrefabForSwitchRouter(selectedObject);
             ShowSelectionUI();
             OpenIpAssignmentUI(selectedObject);
+            OpenVlanAssignmentUI(selectedObject);
         }
         else if (secondObject == null && selectedObject != firstObject)
         {
@@ -97,6 +111,7 @@ public class ConnectionManager : MonoBehaviour
             SpawnPrefabForSwitchRouter(selectedObject);
             ShowSelectionUI();
             OpenIpAssignmentUI(selectedObject);
+            OpenVlanAssignmentUI(selectedObject);
         }
     }
 
@@ -182,16 +197,24 @@ public class ConnectionManager : MonoBehaviour
             objectPrefabs[currentObject].SetActive(false);
         }
         ConnectionData connectionData = currentObject.GetComponent<ConnectionData>();
-        if (connectionData.IPAddressText.text == "")
+        if (connectionData.IPAddressText.text == null)
         {
             AssignIpAddress();
         }
-            
-
-
-        if (!isIPadresswrited)
+        if (currentObject.CompareTag("Switch"))
+        {
+            if (connectionData.VLANText.text == null)
+            {
+                Debug.Log("asdpiahnpdiunwpieoufnopwierufgbeoirubgfesopirjgfne");
+                AssignVlan();
+            }
+        }
+        
+        if (!isIPadresswrited && !isVLANswrited)
         {
             SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
+            ipAssignmentUI.SetActive(false);
+            vlanAssignmentUI.SetActive(false);
         }
     }
 
@@ -231,6 +254,11 @@ public class ConnectionManager : MonoBehaviour
             CreateConnectionLine();
             BlockSelectedPort(firstObject);
             BlockSelectedPort(secondObject);
+
+            // Добавляем подключение к словарю
+            AddConnection(firstObject, secondObject);
+            AddConnection(secondObject, firstObject);
+
             UpdateTip("Қосылым сәтті жасалды.");
             Debug.Log("Соединение успешно создано.");
         }
@@ -303,6 +331,83 @@ public class ConnectionManager : MonoBehaviour
         return false;
     }
 
+    public void OpenVlanAssignmentUI(GameObject obj)
+    {
+        // Ensure VLAN can only be assigned to switches
+        if (obj.CompareTag("Switch"))
+        {
+            selectedForVlanAssignment = obj;
+
+            // Check if VLAN is already assigned
+            ConnectionData connectionData = obj.GetComponent<ConnectionData>();
+            if (connectionData != null && !string.IsNullOrEmpty(connectionData.VLANID))
+            {
+                Debug.Log($"VLAN {connectionData.VLANID} already assigned to {obj.name}.");
+                return;
+            }
+
+            // Clear the input field and show the UI
+            vlanInputField.text = string.Empty;
+            vlanAssignmentUI.SetActive(true);
+        }
+    }
+
+    // Method to assign VLAN
+    public void AssignVlan()
+    {
+        if (selectedForVlanAssignment == null) return;
+
+        string inputVlan = vlanInputField.text;
+
+        // Check if the input is empty
+        if (string.IsNullOrWhiteSpace(inputVlan))
+        {
+            Debug.LogWarning("VLAN ID input is empty.");
+            UpdateTip("Қате: VLAN идентификаторы енгізілмеген.");
+            isVLANswrited = true;
+            return;
+        }
+
+        // Validate VLAN ID (e.g., numeric and within range 1-4096)
+        if (int.TryParse(inputVlan, out int vlanID) && vlanID >= 1 && vlanID <= 4096)
+        {
+            // Check if VLAN ID is already assigned (optional)
+            if (assignedVlans.Contains(inputVlan))
+            {
+                Debug.LogError($"Error: VLAN {inputVlan} is already assigned.");
+                UpdateTip($"Қате: VLAN {inputVlan} қазірдің өзінде қолданылады.");
+                isVLANswrited = true;
+                return;
+            }
+
+            // Assign VLAN to the switch
+            ConnectionData connectionData = selectedForVlanAssignment.GetComponent<ConnectionData>();
+            if (connectionData != null)
+            {
+                // Remove the previous VLAN if necessary
+                if (!string.IsNullOrWhiteSpace(connectionData.VLANID))
+                {
+                    assignedVlans.Remove(connectionData.VLANID);
+                }
+
+                connectionData.VLANID = inputVlan; // Assign VLAN ID as a string
+                assignedVlans.Add(inputVlan); // Add VLAN ID to the list
+                Debug.Log($"VLAN {inputVlan} assigned to {selectedForVlanAssignment.name}.");
+                UpdateTip($"VLAN {inputVlan} нысанға тағайындалды.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Invalid VLAN ID.");
+            UpdateTip("Қате: дұрыс емес VLAN идентификаторы.");
+        }
+
+        // Hide the UI and reset selection
+        //vlanAssignmentUI.SetActive(false);
+        isVLANswrited = false;
+        selectedForVlanAssignment = null;
+    }
+
     // Метод для открытия UI назначения IP
     public void OpenIpAssignmentUI(GameObject obj)
     {
@@ -370,7 +475,7 @@ public class ConnectionManager : MonoBehaviour
             Debug.LogError("Неверный IP-адрес.");
             UpdateTip("Қате: дұрыс емес IP-адрес.");
         }
-        ipAssignmentUI.SetActive(false); // Закрываем UI
+        //ipAssignmentUI.SetActive(false); // Закрываем UI
         isIPadresswrited = false;
         selectedForIpAssignment = null;
     }
@@ -401,6 +506,40 @@ public class ConnectionManager : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, firstObject.transform.position);
         lineRenderer.SetPosition(1, secondObject.transform.position);
+    }
+
+    private void AddConnection(GameObject fromObject, GameObject toObject)
+    {
+        if (fromObject.CompareTag("Switch"))
+        {
+            if (!switchConnections.ContainsKey(fromObject))
+            {
+                switchConnections[fromObject] = new List<GameObject>();
+            }
+            if (!switchConnections[fromObject].Contains(toObject))
+            {
+                switchConnections[fromObject].Add(toObject);
+                Debug.Log($"Добавлено подключение: {fromObject.name} -> {toObject.name}");
+            }
+            PrintConnections(fromObject);
+        }
+    }
+
+    // Метод для вывода подключений (например, по кнопке)
+    public void PrintConnections(GameObject switchObject)
+    {
+        if (switchConnections.ContainsKey(switchObject))
+        {
+            Debug.Log($"Подключенные устройства к {switchObject.name}:");
+            foreach (var connectedDevice in switchConnections[switchObject])
+            {
+                Debug.Log($"- {connectedDevice.name}");
+            }
+        }
+        else
+        {
+            Debug.Log($"Нет подключений для {switchObject.name}");
+        }
     }
 
     void ResetConnection()
