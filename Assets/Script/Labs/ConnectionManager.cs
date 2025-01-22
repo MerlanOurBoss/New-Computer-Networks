@@ -37,6 +37,10 @@ public class ConnectionManager : MonoBehaviour
     [Space]
     [SerializeField] private GameObject parentForPrefab;
 
+    [Header("Color of Standart")]
+    [SerializeField] private GameObject colorStandartUI;
+    private bool isForFirstColorStandart = false;
+
     private GameObject firstObject;
     private GameObject secondObject;
     private string firstStandard;
@@ -50,6 +54,7 @@ public class ConnectionManager : MonoBehaviour
     private bool isSelectingFirstObject = true;
     private Dictionary<GameObject, GameObject> objectPrefabs;
 
+    private int countOfConnect = 0;
     // Словарь для хранения подключений: ключ — коммутатор, значение — список подключенных устройств
     private Dictionary<GameObject, List<GameObject>> switchConnections = new Dictionary<GameObject, List<GameObject>>();
 
@@ -59,6 +64,7 @@ public class ConnectionManager : MonoBehaviour
         selectionUI.SetActive(false);
         ipAssignmentUI.SetActive(false);
         vlanAssignmentUI.SetActive(false);
+        colorStandartUI.SetActive(false);
         UpdateTip("Қосылу үшін «Кабель» түймесін басыңыз.");
 
         // Инициализация словаря для хранения созданных префабов
@@ -92,7 +98,7 @@ public class ConnectionManager : MonoBehaviour
     public void SelectObject(GameObject selectedObject)
     {
         if (!isConnecting) return;
-
+        countOfConnect++;
         if (firstObject == null)
         {
             firstObject = selectedObject;
@@ -102,6 +108,10 @@ public class ConnectionManager : MonoBehaviour
             ShowSelectionUI();
             OpenIpAssignmentUI(selectedObject);
             OpenVlanAssignmentUI(selectedObject);
+            if (countOfConnect <= 2)
+            {
+                colorStandartUI.SetActive(true);
+            }
         }
         else if (secondObject == null && selectedObject != firstObject)
         {
@@ -112,6 +122,10 @@ public class ConnectionManager : MonoBehaviour
             ShowSelectionUI();
             OpenIpAssignmentUI(selectedObject);
             OpenVlanAssignmentUI(selectedObject);
+            if (countOfConnect <= 2)
+            {
+                colorStandartUI.SetActive(true);
+            }
         }
     }
 
@@ -153,8 +167,8 @@ public class ConnectionManager : MonoBehaviour
         string selectedStandard = standardDropdown.options[standardDropdown.value].text;
         string selectedCableType = cableTypeDropdown.options[cableTypeDropdown.value].text;
 
-
         GameObject currentObject = isSelectingFirstObject ? firstObject : secondObject;
+        CableColorOrder cableColorOrder = gameObject.GetComponent<CableColorOrder>();
 
         if (currentObject != null && objectPrefabs.ContainsKey(currentObject) && objectPrefabs[currentObject] != null)
         {
@@ -209,12 +223,31 @@ public class ConnectionManager : MonoBehaviour
                 AssignVlan();
             }
         }
-        
+
+        if (countOfConnect <= 2)
+        {
+            cableColorOrder.CheckColorOrder();
+        }
+
         if (!isIPadresswrited && !isVLANswrited)
         {
-            SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
-            ipAssignmentUI.SetActive(false);
-            vlanAssignmentUI.SetActive(false);
+            if (countOfConnect <= 2)
+            {
+                if (cableColorOrder.isCorrect)
+                {
+                    SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
+                    ipAssignmentUI.SetActive(false);
+                    vlanAssignmentUI.SetActive(false);
+                    colorStandartUI.SetActive(false);
+                }
+            }
+            else
+            {
+                SetConnectionOptions(selectedStandard, selectedCableType, isSelectingFirstObject);
+                ipAssignmentUI.SetActive(false);
+                vlanAssignmentUI.SetActive(false);
+            }
+
         }
     }
 
@@ -242,7 +275,6 @@ public class ConnectionManager : MonoBehaviour
             UpdateTip("Екінші нысанды таңдаңыз.");
         }
     }
-
     void ValidateAndConnect()
     {
         string firstType = firstObject.tag;
@@ -272,7 +304,6 @@ public class ConnectionManager : MonoBehaviour
 
         ResetConnection();
     }
-
     void BlockSelectedPort(GameObject obj)
     {
         if (obj == null) return;
@@ -283,7 +314,6 @@ public class ConnectionManager : MonoBehaviour
             connectionData.SelectedPort.interactable = false;
         }
     }
-
     void ReleaseSelectedPort(GameObject obj)
     {
         if (obj == null) return;
@@ -330,7 +360,6 @@ public class ConnectionManager : MonoBehaviour
         }
         return false;
     }
-
     public void OpenVlanAssignmentUI(GameObject obj)
     {
         // Ensure VLAN can only be assigned to switches
@@ -351,7 +380,6 @@ public class ConnectionManager : MonoBehaviour
             vlanAssignmentUI.SetActive(true);
         }
     }
-
     // Method to assign VLAN
     public void AssignVlan()
     {
@@ -407,7 +435,6 @@ public class ConnectionManager : MonoBehaviour
         isVLANswrited = false;
         selectedForVlanAssignment = null;
     }
-
     // Метод для открытия UI назначения IP
     public void OpenIpAssignmentUI(GameObject obj)
     {
@@ -426,7 +453,6 @@ public class ConnectionManager : MonoBehaviour
         // Показываем UI
         ipAssignmentUI.SetActive(true);
     }
-
     // Метод для подтверждения назначения IP
     public void AssignIpAddress()
     {
@@ -474,13 +500,12 @@ public class ConnectionManager : MonoBehaviour
         {
             Debug.LogError("Неверный IP-адрес.");
             UpdateTip("Қате: дұрыс емес IP-адрес.");
+            isIPadresswrited = false;
         }
         //ipAssignmentUI.SetActive(false); // Закрываем UI
         isIPadresswrited = false;
         selectedForIpAssignment = null;
     }
-
-
     // Метод проверки валидности IP-адреса
     private bool IsValidIp(string ip)
     {
@@ -497,7 +522,6 @@ public class ConnectionManager : MonoBehaviour
 
         return true;
     }
-
     void CreateConnectionLine()
     {
         GameObject lineObject = Instantiate(linePrefab);
@@ -507,7 +531,6 @@ public class ConnectionManager : MonoBehaviour
         lineRenderer.SetPosition(0, firstObject.transform.position);
         lineRenderer.SetPosition(1, secondObject.transform.position);
     }
-
     private void AddConnection(GameObject fromObject, GameObject toObject)
     {
         if (fromObject.CompareTag("Switch"))
@@ -524,7 +547,6 @@ public class ConnectionManager : MonoBehaviour
             PrintConnections(fromObject);
         }
     }
-
     // Метод для вывода подключений (например, по кнопке)
     public void PrintConnections(GameObject switchObject)
     {
@@ -541,7 +563,6 @@ public class ConnectionManager : MonoBehaviour
             Debug.Log($"Нет подключений для {switchObject.name}");
         }
     }
-
     void ResetConnection()
     {
         isConnecting = false;
@@ -558,7 +579,6 @@ public class ConnectionManager : MonoBehaviour
             prefab.SetActive(false);
         }
     }
-
     void UpdateTip(string message)
     {
         tipText.text = message;
