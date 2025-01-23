@@ -20,7 +20,8 @@ public class ConnectionManager : MonoBehaviour
     public GameObject ipAssignmentUI; // UI для ввода IP
     public TMP_InputField ipInputField; // Поле для ввода IP
     private GameObject selectedForIpAssignment; // Объект, которому назначается IP
-    private HashSet<string> assignedIps = new HashSet<string>();
+    public HashSet<string> assignedIps = new HashSet<string>();
+    public Dictionary<string, GameObject> ipToComputerMap = new Dictionary<string, GameObject>();
 
     [Header("VLAN Assignment")]
     public GameObject vlanAssignmentUI; // UI for VLAN assignment
@@ -70,8 +71,6 @@ public class ConnectionManager : MonoBehaviour
         // Инициализация словаря для хранения созданных префабов
         objectPrefabs = new Dictionary<GameObject, GameObject>();
     }
-
-
     void Update()
     {
         if (isConnecting && UnityEngine.Input.GetMouseButtonDown(0))
@@ -85,7 +84,6 @@ public class ConnectionManager : MonoBehaviour
             }
         }
     }
-
     void StartConnection()
     {
         isConnecting = true;
@@ -94,7 +92,6 @@ public class ConnectionManager : MonoBehaviour
         UpdateTip("Бірінші нысанды таңдаңыз.");
         Debug.Log("Начат процесс соединения объектов.");
     }
-
     public void SelectObject(GameObject selectedObject)
     {
         if (!isConnecting) return;
@@ -128,7 +125,6 @@ public class ConnectionManager : MonoBehaviour
             }
         }
     }
-
     void SpawnPrefabForSwitchRouter(GameObject obj)
     {
         if (objectPrefabs.ContainsKey(obj))
@@ -156,12 +152,10 @@ public class ConnectionManager : MonoBehaviour
             }
         }
     }
-
     void ShowSelectionUI()
     {
         selectionUI.SetActive(true);
     }
-
     public void OnConfirmSelection()
     {
         string selectedStandard = standardDropdown.options[standardDropdown.value].text;
@@ -250,7 +244,6 @@ public class ConnectionManager : MonoBehaviour
 
         }
     }
-
     public void SetConnectionOptions(string standard, string cableType, bool isFirstObject)
     {
         if (isFirstObject)
@@ -492,6 +485,7 @@ public class ConnectionManager : MonoBehaviour
 
                 connectionData.IPAddress = inputIp; // Назначаем IP
                 assignedIps.Add(inputIp); // Добавляем IP в список занятых
+                ipToComputerMap.Add(inputIp, selectedForIpAssignment); // Добавляем IP в список занятых
                 Debug.Log($"IP {inputIp} assigned to {selectedForIpAssignment.name}.");
                 UpdateTip($"IP {inputIp} нысанға тағайындалды.");
             }
