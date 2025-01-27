@@ -9,6 +9,10 @@ TagManager:
   - Router
   - Switch
   - Port
+  - Commutator->Computer
+  - Commutator->Router
+  - Computer->Computer
+  - Commutator->Commutator
   layers:
   - Default
   - TransparentFX

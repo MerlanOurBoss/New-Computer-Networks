@@ -322,33 +322,101 @@ public class ConnectionManager : MonoBehaviour
     {
         // Проверка совместимости для PC -> PC
         if (firstType == "PC" && secondType == "PC" &&
-            firstStandard == secondStandard &&
+            firstStandard != secondStandard &&
             firstCableType == "Кроссовер" && secondCableType == "Кроссовер")
         {
+            GameObject taggedObject = GameObject.FindWithTag("Computer->Computer");
+            if (taggedObject != null)
+            {
+                Toggle toggle = taggedObject.GetComponent<Toggle>();
+                if (toggle != null)
+                {
+                    if (!toggle.isOn)
+                    {
+                        toggle.isOn = true;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // Проверка совместимости для Switch -> Switch
+        if (firstType == "Switch" && secondType == "Switch" &&
+            firstStandard != secondStandard &&
+            firstCableType == "Кроссовер" && secondCableType == "Кроссовер")
+        {
+            GameObject taggedObject = GameObject.FindWithTag("Commutator->Commutator");
+            if (taggedObject != null)
+            {
+                Toggle toggle = taggedObject.GetComponent<Toggle>();
+                if (toggle != null)
+                {
+                    if (!toggle.isOn)
+                    {
+                        toggle.isOn = true;
+                    }
+                }
+            }
             return true;
         }
 
         // Проверка совместимости для PC -> Router
         if ((firstType == "PC" && secondType == "Router" || firstType == "Router" && secondType == "PC") &&
-            firstStandard == "T-568B" && secondStandard == "T-568B" &&
+            (firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A") &&
             firstCableType == "Тікелей" && secondCableType == "Тікелей")
         {
+            GameObject taggedObject = GameObject.FindWithTag("Computer->Router");
+            if (taggedObject != null)
+            {
+                Toggle toggle = taggedObject.GetComponent<Toggle>();
+                if (toggle != null)
+                {
+                    if (!toggle.isOn)
+                    {
+                        toggle.isOn = true;
+                    }
+                }
+            }
             return true;
         }
 
         // Проверка совместимости для Router -> Switch
         if ((firstType == "Router" && secondType == "Switch" || firstType == "Switch" && secondType == "Router") &&
-            firstStandard == "T-568B" && secondStandard == "T-568B" &&
+            (firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A") &&
             firstCableType == "Тікелей" && secondCableType == "Тікелей")
         {
+            GameObject taggedObject = GameObject.FindWithTag("Commutator->Router");
+            if (taggedObject != null)
+            {
+                Toggle toggle = taggedObject.GetComponent<Toggle>();
+                if (toggle != null)
+                {
+                    if (!toggle.isOn)
+                    {
+                        toggle.isOn = true;
+                    }
+                }
+            }
             return true;
         }
 
         // Проверка совместимости для PC -> Switch
         if ((firstType == "PC" && secondType == "Switch" || firstType == "Switch" && secondType == "PC") &&
-            firstStandard == "T-568B" && secondStandard == "T-568B" &&
+            (firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A") &&
             firstCableType == "Тікелей" && secondCableType == "Тікелей")
         {
+            GameObject taggedObject = GameObject.FindWithTag("Commutator->Computer");
+            if (taggedObject != null)
+            {
+                Toggle toggle = taggedObject.GetComponent<Toggle>();
+                if (toggle != null)
+                {
+                    if (!toggle.isOn)
+                    {
+                        toggle.isOn = true;
+                    }
+                }
+            }
             return true;
         }
         return false;
