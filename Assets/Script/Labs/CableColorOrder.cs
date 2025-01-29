@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -6,69 +6,69 @@ using UnityEngine.UI;
 
 public class CableColorOrder : MonoBehaviour
 {
-    public TMP_Dropdown standardDropdown; // Dropdown для выбора стандарта
-    public TMP_Dropdown[] colorDropdowns; // Поля ввода для установки цветов
-    public TMP_Text resultText; // Текст для отображения результата проверки
+    public TMP_Dropdown standardDropdown; // Dropdown РґР»СЏ РІС‹Р±РѕСЂР° СЃС‚Р°РЅРґР°СЂС‚Р°
+    public TMP_Dropdown[] colorDropdowns; // РџРѕР»СЏ РІРІРѕРґР° РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё С†РІРµС‚РѕРІ
+    public TMP_Text resultText; // РўРµРєСЃС‚ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р° РїСЂРѕРІРµСЂРєРё
 
     public bool isCorrect = false;
 
-    // Цвета для T-568A
+    // Р¦РІРµС‚Р° РґР»СЏ T-568A
     private readonly string[] T568AColors = new string[]
     {
-        "зелено-белый",
-        "зеленый",
-        "оранжево-белый",
-        "синий",
-        "сине-белый",
-        "оранжевый",
-        "коричнево-белый",
-        "коричневый"
+        "Р°Т›-Р¶Р°СЃС‹Р»",
+        "Р¶Р°СЃС‹Р»",
+        "Р°Т›-СЃР°СЂС‹",
+        "РєУ©Рє",
+        "Р°Т›-РєУ©Рє",
+        "СЃР°СЂС‹",
+        "Р°Т›-Т›РѕТЈС‹СЂ",
+        "Т›РѕТЈС‹СЂ"
     };
 
-    // Цвета для T-568B
+    // Р¦РІРµС‚Р° РґР»СЏ T-568B
     private readonly string[] T568BColors = new string[]
     {
-        "оранжево-белый",
-        "оранжевый",
-        "зелено-белый",
-        "синий",
-        "сине-белый",
-        "зеленый",
-        "коричнево-белый",
-        "коричневый"
+        "Р°Т›-СЃР°СЂС‹",
+        "СЃР°СЂС‹",
+        "Р°Т›-Р¶Р°СЃС‹Р»",
+        "РєУ©Рє",
+        "Р°Т›-РєУ©Рє",
+        "Р¶Р°СЃС‹Р»",
+        "Р°Т›-Т›РѕТЈС‹СЂ",
+        "Т›РѕТЈС‹СЂ"
     };
 
     private string[] currentStandardColors;
 
     void Start()
     {
-        // Подписываемся на событие изменения выбора стандарта
+        // РџРѕРґРїРёСЃС‹РІР°РµРјСЃСЏ РЅР° СЃРѕР±С‹С‚РёРµ РёР·РјРµРЅРµРЅРёСЏ РІС‹Р±РѕСЂР° СЃС‚Р°РЅРґР°СЂС‚Р°
         standardDropdown.onValueChanged.AddListener(SetCurrentStandard);
 
-        // Устанавливаем текущий стандарт и обновляем UI
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РµРєСѓС‰РёР№ СЃС‚Р°РЅРґР°СЂС‚ Рё РѕР±РЅРѕРІР»СЏРµРј UI
         SetCurrentStandard(standardDropdown.value);
 
-        // Инициализируем dropdowns цветов
+        // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј dropdowns С†РІРµС‚РѕРІ
         InitializeColorDropdowns();
     }
 
-    // Метод для установки текущего стандарта
+    // РњРµС‚РѕРґ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё С‚РµРєСѓС‰РµРіРѕ СЃС‚Р°РЅРґР°СЂС‚Р°
     private void SetCurrentStandard(int standardIndex)
     {
         currentStandardColors = standardIndex == 0 ? T568AColors : T568BColors;
-        resultText.text = ""; // Очищаем текст результата
+        resultText.text = ""; // РћС‡РёС‰Р°РµРј С‚РµРєСЃС‚ СЂРµР·СѓР»СЊС‚Р°С‚Р°
 
-        // Сбрасываем dropdowns цветов
+        // РЎР±СЂР°СЃС‹РІР°РµРј dropdowns С†РІРµС‚РѕРІ
         foreach (var dropdown in colorDropdowns)
         {
             dropdown.value = 0;
         }
 
-        // Перемешиваем цвета в каждом dropdown
+        // РџРµСЂРµРјРµС€РёРІР°РµРј С†РІРµС‚Р° РІ РєР°Р¶РґРѕРј dropdown
         InitializeColorDropdowns();
     }
 
-    // Метод для инициализации dropdowns цветов
+    // РњРµС‚РѕРґ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё dropdowns С†РІРµС‚РѕРІ
     private void InitializeColorDropdowns()
     {
         foreach (var dropdown in colorDropdowns)
@@ -79,7 +79,7 @@ public class CableColorOrder : MonoBehaviour
         }
     }
 
-    // Метод для проверки правильности порядка цветов
+    // РњРµС‚РѕРґ РґР»СЏ РїСЂРѕРІРµСЂРєРё РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РїРѕСЂСЏРґРєР° С†РІРµС‚РѕРІ
     public void CheckColorOrder()
     {
         for (int i = 0; i < colorDropdowns.Length; i++)
@@ -88,7 +88,7 @@ public class CableColorOrder : MonoBehaviour
             {
                 if (!colorDropdowns[i].options[colorDropdowns[i].value].text.Equals(currentStandardColors[i], System.StringComparison.OrdinalIgnoreCase))
                 {
-                    resultText.text = "Порядок цветов неверный!";
+                    resultText.text = "РџРѕСЂСЏРґРѕРє С†РІРµС‚РѕРІ РЅРµРІРµСЂРЅС‹Р№!";
                     resultText.color = Color.red;
                     isCorrect = false;
                     return;
@@ -96,7 +96,7 @@ public class CableColorOrder : MonoBehaviour
             }
         }
 
-        resultText.text = "Порядок цветов правильный!";
+        resultText.text = "РџРѕСЂСЏРґРѕРє С†РІРµС‚РѕРІ РїСЂР°РІРёР»СЊРЅС‹Р№!";
         resultText.color = Color.green;
         isCorrect = true;
     }

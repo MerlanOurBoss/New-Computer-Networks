@@ -1212,21 +1212,21 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0439"
+    - m_Text: "\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0435-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0438\u0439"
+    - m_Text: "\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u044B\u0439"
+    - m_Text: "\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1386,10 +1386,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+  m_text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
+  m_sharedMaterial: {fileID: 4766186647570712450, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2405,10 +2405,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+  m_text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
+  m_sharedMaterial: {fileID: 4766186647570712450, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2701,21 +2701,21 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0439"
+    - m_Text: "\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0435-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0438\u0439"
+    - m_Text: "\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u044B\u0439"
+    - m_Text: "\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3510,10 +3510,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+  m_text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
+  m_sharedMaterial: {fileID: 4766186647570712450, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3755,10 +3755,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+  m_text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
+  m_sharedMaterial: {fileID: 4766186647570712450, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6315,10 +6315,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+  m_text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
+  m_sharedMaterial: {fileID: 4766186647570712450, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10115,21 +10115,21 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0439"
+    - m_Text: "\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0435-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0438\u0439"
+    - m_Text: "\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u044B\u0439"
+    - m_Text: "\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11445,21 +11445,21 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0438\u0439"
+    - m_Text: "\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0435-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u044B\u0439"
+    - m_Text: "\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12776,10 +12776,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+  m_text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
+  m_sharedMaterial: {fileID: 4766186647570712450, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13649,10 +13649,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+  m_text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
+  m_sharedMaterial: {fileID: 4766186647570712450, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -14107,10 +14107,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+  m_text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
+  m_sharedMaterial: {fileID: 4766186647570712450, guid: 1c563c741a86ba849a62f1ff085f0e95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16453,21 +16453,21 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0439"
+    - m_Text: "\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0435-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0438\u0439"
+    - m_Text: "\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u044B\u0439"
+    - m_Text: "\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16842,21 +16842,21 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0439"
+    - m_Text: "\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0435-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0438\u0439"
+    - m_Text: "\u0430\u049B-\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u044B\u0439"
+    - m_Text: "\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -19114,21 +19114,21 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0435-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0438\u0439"
+    - m_Text: "\u0430\u049B-\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u044B\u0439"
+    - m_Text: "\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -19338,21 +19338,21 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0436\u0430\u0441\u044B\u043B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u043E-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u043A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0439"
+    - m_Text: "\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0435-\u0431\u0435\u043B\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u043A\u04E9\u043A"
       m_Image: {fileID: 0}
-    - m_Text: "\u0441\u0438\u043D\u0438\u0439"
+    - m_Text: "\u0441\u0430\u0440\u044B"
       m_Image: {fileID: 0}
-    - m_Text: "\u0437\u0435\u043B\u0435\u043D\u044B\u0439"
+    - m_Text: "\u0430\u049B-\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
-    - m_Text: "\u043E\u0440\u0430\u043D\u0436\u0435\u0432\u044B\u0439"
+    - m_Text: "\u049B\u043E\u04A3\u044B\u0440"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
