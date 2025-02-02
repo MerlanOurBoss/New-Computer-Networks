@@ -365,18 +365,18 @@ public class ConnectionManager : MonoBehaviour
             (firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A") &&
             firstCableType == "Тікелей" && secondCableType == "Тікелей")
         {
-            GameObject taggedObject = GameObject.FindWithTag("Computer->Router");
-            if (taggedObject != null)
-            {
-                Toggle toggle = taggedObject.GetComponent<Toggle>();
-                if (toggle != null)
-                {
-                    if (!toggle.isOn)
-                    {
-                        toggle.isOn = true;
-                    }
-                }
-            }
+            //GameObject taggedObject = GameObject.FindWithTag("Computer->Router");
+            //if (taggedObject != null)
+            //{
+            //    Toggle toggle = taggedObject.GetComponent<Toggle>();
+            //    if (toggle != null)
+            //    {
+            //        if (!toggle.isOn)
+            //        {
+            //            toggle.isOn = true;
+            //        }
+            //    }
+            //}
             return true;
         }
 

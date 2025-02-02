@@ -69,6 +69,18 @@ public class PingManager : MonoBehaviour
             yield return new WaitForSeconds(responseTime / 1000f); // Имитация задержки
 
             LogToConsole($"Ответ от {ipAddress}: время = {responseTime:F1} мс");
+            GameObject taggedObject = GameObject.FindWithTag("Pinging");
+            if (taggedObject != null)
+            {
+                Toggle toggle = taggedObject.GetComponent<Toggle>();
+                if (toggle != null)
+                {
+                    if (!toggle.isOn)
+                    {
+                        toggle.isOn = true;
+                    }
+                }
+            }
         }
         else
         {

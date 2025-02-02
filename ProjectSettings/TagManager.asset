@@ -13,6 +13,7 @@ TagManager:
   - Commutator->Router
   - Computer->Computer
   - Commutator->Commutator
+  - Pinging
   layers:
   - Default
   - TransparentFX

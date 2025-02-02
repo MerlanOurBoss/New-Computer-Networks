@@ -73,9 +73,27 @@ public class CableColorOrder : MonoBehaviour
     {
         foreach (var dropdown in colorDropdowns)
         {
-            List<string> randomizedColors = T568AColors.OrderBy(c => Random.value).ToList();
+            List<TMP_Dropdown.OptionData> oldOptions = dropdown.options.ToList(); // Сохраняем текущие опции (с картинками)
+            List<string> randomizedColors = T568AColors.OrderBy(c => Random.value).ToList(); // Перемешиваем цвета
+
+            List<TMP_Dropdown.OptionData> newOptions = new List<TMP_Dropdown.OptionData>();
+
+            foreach (var color in randomizedColors)
+            {
+                // Ищем старую опцию с той же строкой, чтобы сохранить картинку
+                TMP_Dropdown.OptionData existingOption = oldOptions.FirstOrDefault(opt => opt.text == color);
+                if (existingOption != null)
+                {
+                    newOptions.Add(new TMP_Dropdown.OptionData(color, existingOption.image)); // Сохраняем картинку
+                }
+                else
+                {
+                    newOptions.Add(new TMP_Dropdown.OptionData(color)); // Если нет старой, создаем без картинки
+                }
+            }
+
             dropdown.ClearOptions();
-            dropdown.AddOptions(randomizedColors);
+            dropdown.AddOptions(newOptions);
         }
     }
 
