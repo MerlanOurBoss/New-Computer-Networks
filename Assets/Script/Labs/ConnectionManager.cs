@@ -58,7 +58,7 @@ public class ConnectionManager : MonoBehaviour
     private int countOfConnect = 0;
     // Словарь для хранения подключений: ключ — коммутатор, значение — список подключенных устройств
     private Dictionary<GameObject, List<GameObject>> switchConnections = new Dictionary<GameObject, List<GameObject>>();
-
+    private int countConnection = 0;
     void Start()
     {
         startConnectionButton.onClick.AddListener(StartConnection);
@@ -605,6 +605,10 @@ public class ConnectionManager : MonoBehaviour
             {
                 switchConnections[fromObject].Add(toObject);
                 Debug.Log($"Добавлено подключение: {fromObject.name} -> {toObject.name}");
+                if (switchConnections[fromObject].Count == 5)
+                {
+                    Debug.Log("fkfknfoisjdnpdjngpsjngprstognrognr");
+                }
             }
             PrintConnections(fromObject);
         }
