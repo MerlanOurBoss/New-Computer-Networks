@@ -14,6 +14,9 @@ TagManager:
   - Computer->Computer
   - Commutator->Commutator
   - Pinging
+  - Star
+  - All
+  - Ring
   layers:
   - Default
   - TransparentFX

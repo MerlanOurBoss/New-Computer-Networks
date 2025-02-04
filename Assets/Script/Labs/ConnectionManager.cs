@@ -320,11 +320,13 @@ public class ConnectionManager : MonoBehaviour
     }
     bool IsConnectionValid(string firstType, string secondType, string firstStandard, string secondStandard, string firstCableType, string secondCableType)
     {
+        Debug.Log(firstType +" , "+ secondType);
         // Проверка совместимости для PC -> PC
         if (firstType == "PC" && secondType == "PC" &&
             firstStandard != secondStandard &&
             firstCableType == "Кроссовер" && secondCableType == "Кроссовер")
         {
+            Debug.Log("1");
             GameObject taggedObject = GameObject.FindWithTag("Computer->Computer");
             if (taggedObject != null)
             {
@@ -345,6 +347,7 @@ public class ConnectionManager : MonoBehaviour
             firstStandard != secondStandard &&
             firstCableType == "Кроссовер" && secondCableType == "Кроссовер")
         {
+            Debug.Log("2");
             GameObject taggedObject = GameObject.FindWithTag("Commutator->Commutator");
             if (taggedObject != null)
             {
@@ -361,30 +364,32 @@ public class ConnectionManager : MonoBehaviour
         }
 
         // Проверка совместимости для PC -> Router
-        if ((firstType == "PC" && secondType == "Router" || firstType == "Router" && secondType == "PC") &&
-            (firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A") &&
+        if (((firstType == "PC" && secondType == "Router") || (firstType == "Router" && secondType == "PC")) &&
+            ((firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A")) &&
             firstCableType == "Тікелей" && secondCableType == "Тікелей")
         {
-            //GameObject taggedObject = GameObject.FindWithTag("Computer->Router");
-            //if (taggedObject != null)
-            //{
-            //    Toggle toggle = taggedObject.GetComponent<Toggle>();
-            //    if (toggle != null)
-            //    {
-            //        if (!toggle.isOn)
-            //        {
-            //            toggle.isOn = true;
-            //        }
-            //    }
-            //}
+            Debug.Log("3");
+            GameObject taggedObject = GameObject.FindWithTag("Computer->Router");
+            if (taggedObject != null)
+            {
+                Toggle toggle = taggedObject.GetComponent<Toggle>();
+                if (toggle != null)
+                {
+                    if (!toggle.isOn)
+                    {
+                        toggle.isOn = true;
+                    }
+                }
+            }
             return true;
         }
 
         // Проверка совместимости для Router -> Switch
-        if ((firstType == "Router" && secondType == "Switch" || firstType == "Switch" && secondType == "Router") &&
-            (firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A") &&
+        if (((firstType == "Router" && secondType == "Switch") || (firstType == "Switch" && secondType == "Router")) &&
+            ((firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A")) &&
             firstCableType == "Тікелей" && secondCableType == "Тікелей")
         {
+            Debug.Log("4");
             GameObject taggedObject = GameObject.FindWithTag("Commutator->Router");
             if (taggedObject != null)
             {
@@ -401,10 +406,11 @@ public class ConnectionManager : MonoBehaviour
         }
 
         // Проверка совместимости для PC -> Switch
-        if ((firstType == "PC" && secondType == "Switch" || firstType == "Switch" && secondType == "PC") &&
-            (firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A") &&
+        if (((firstType == "PC" && secondType == "Switch") || (firstType == "Switch" && secondType == "PC")) &&
+            ((firstStandard == "T-568B" && secondStandard == "T-568B") || (firstStandard == "T-568A" && secondStandard == "T-568A")) &&
             firstCableType == "Тікелей" && secondCableType == "Тікелей")
         {
+            Debug.Log("5");
             GameObject taggedObject = GameObject.FindWithTag("Commutator->Computer");
             if (taggedObject != null)
             {
@@ -607,7 +613,18 @@ public class ConnectionManager : MonoBehaviour
                 Debug.Log($"Добавлено подключение: {fromObject.name} -> {toObject.name}");
                 if (switchConnections[fromObject].Count == 5)
                 {
-                    Debug.Log("fkfknfoisjdnpdjngpsjngprstognrognr");
+                    GameObject taggedObject = GameObject.FindWithTag("Star");
+                    if (taggedObject != null)
+                    {
+                        Toggle toggle = taggedObject.GetComponent<Toggle>();
+                        if (toggle != null)
+                        {
+                            if (!toggle.isOn)
+                            {
+                                toggle.isOn = true;
+                            }
+                        }
+                    }
                 }
             }
             PrintConnections(fromObject);
