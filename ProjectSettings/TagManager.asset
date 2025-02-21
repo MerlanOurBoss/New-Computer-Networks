@@ -17,6 +17,11 @@ TagManager:
   - Star
   - All
   - Ring
+  - Vlan
+  - Swicth
+  - SwitchToggle
+  - RouterToggle
+  - PCToggle
   layers:
   - Default
   - TransparentFX

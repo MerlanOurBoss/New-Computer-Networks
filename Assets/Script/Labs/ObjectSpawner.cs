@@ -13,7 +13,6 @@ public class ObjectSpawner : MonoBehaviour
 
     private GameObject currentObject; // Текущий создаваемый объект
     private bool isPlacingObject = false; // Флаг размещения объекта
-
     void Update()
     {
         // Если в процессе размещения объекта
@@ -34,19 +33,6 @@ public class ObjectSpawner : MonoBehaviour
             // Завершаем размещение при клике левой кнопкой
             if (Input.GetMouseButtonDown(0))
             {
-                //// Активируем взаимодействие с кнопкой
-                //Button button = currentObject.GetComponent<Button>();
-                //if (button != null)
-                //{
-                //    button.interactable = true;
-                //    Debug.Log("asdopanidpoianw");
-                //    // Добавляем метод SelectObject как listener
-                //    button.onClick.AddListener(() =>
-                //    {
-                //        connectionManager.SelectObject(currentObject);
-                //    });
-                //}
-
                 isPlacingObject = false; // Завершаем размещение
                 currentObject = null;
             }
@@ -65,12 +51,51 @@ public class ObjectSpawner : MonoBehaviour
         {
             case "PC":
                 prefabToSpawn = pcPrefab;
+                GameObject taggedObject = GameObject.FindWithTag("PCToggle");
+                if (taggedObject != null)
+                {
+                    Debug.Log("dainsdoia");
+                    Toggle toggle = taggedObject.GetComponent<Toggle>();
+                    if (toggle != null)
+                    {
+                        if (!toggle.isOn)
+                        {
+                            toggle.isOn = true;
+                        }
+                    }
+                }
                 break;
             case "Router":
                 prefabToSpawn = routerPrefab;
+                GameObject taggedObject1 = GameObject.FindWithTag("RouterToggle");
+                if (taggedObject1 != null)
+                {
+                    Debug.Log("dainsdoia");
+                    Toggle toggle = taggedObject1.GetComponent<Toggle>();
+                    if (toggle != null)
+                    {
+                        if (!toggle.isOn)
+                        {
+                            toggle.isOn = true;
+                        }
+                    }
+                }
                 break;
             case "Switch":
                 prefabToSpawn = switchPrefab;
+                GameObject taggedObject2 = GameObject.FindWithTag("SwitchToggle");
+                if (taggedObject2 != null)
+                {
+                    Debug.Log("dainsdoia");
+                    Toggle toggle = taggedObject2.GetComponent<Toggle>();
+                    if (toggle != null)
+                    {
+                        if (!toggle.isOn)
+                        {
+                            toggle.isOn = true;
+                        }
+                    }
+                }
                 break;
         }
 

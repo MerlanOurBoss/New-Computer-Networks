@@ -489,6 +489,19 @@ public class ConnectionManager : MonoBehaviour
                 assignedVlans.Add(inputVlan); // Add VLAN ID to the list
                 Debug.Log($"VLAN {inputVlan} assigned to {selectedForVlanAssignment.name}.");
                 UpdateTip($"VLAN {inputVlan} нысанға тағайындалды.");
+
+                GameObject taggedObject = GameObject.FindWithTag("Vlan");
+                if (taggedObject != null)
+                {
+                    Toggle toggle = taggedObject.GetComponent<Toggle>();
+                    if (toggle != null)
+                    {
+                        if (!toggle.isOn)
+                        {
+                            toggle.isOn = true;
+                        }
+                    }
+                }
             }
         }
         else
